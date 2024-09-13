@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adult ADHD Self-Report Scale (ASRS-v1.1) Symptom Checklist</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        #quiz-container {
+            background-color: #fff;
+            padding: 20px;
+            margin: auto;
+            max-width: 500px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #question-number {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        #question-text {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .option {
+            margin-bottom: 10px;
+            display: block;
+        }
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        #result {
+            text-align: center;
+        }
+        #result h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #result p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .inattentive {
+            background-color: #fff9c4; /* Light yellow */
+        }
+        .hyperactive {
+            background-color: #bbdefb; /* Light blue */
+        }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="quiz">
+            <div id="question-number"></div>
+            <div id="question-text"></div>
+            <div id="options"></div>
+            <button id="next-button" disabled>Next</button>
+        </div>
+        <div id="result" style="display: none;">
+            <h2>Your Scores</h2>
+            <p>Inattentive Score (INN): <span id="inn-score"></span></p>
+            <p>Hyperactive Score (HYP): <span id="hyp-score"></span></p>
+            <p>Total Score: <span id="total-score"></span></p>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                number: 1,
+                text: "How often do you have trouble wrapping up the final details of a project, once the challenging parts have been done?",
+                type: "INN",
+            },
+            {
+                number: 2,
+                text: "How often do you have difficulty getting things in order when you have to do a task that requires organization?",
+                type: "INN",
+            },
+            {
+                number: 3,
+                text: "How often do you have problems remembering appointments or obligations?",
+                type: "INN",
+            },
+            {
+                number: 4,
+                text: "When you have a task that requires a lot of thought, how often do you avoid or delay getting started?",
+                type: "INN",
+            },
+            {
+                number: 5,
+                text: "How often do you fidget or squirm with your hands or feet when you have to sit down for a long time?",
+                type: "HYP",
+            },
+            {
+                number: 6,
+                text: "How often do you feel overly active and compelled to do things, like you were driven by a motor?",
+                type: "HYP",
+            },
+            {
+                number: 7,
+                text: "How often do you make careless mistakes when you have to work on a boring or difficult project?",
+                type: "INN",
+            },
+            {
+                number: 8,
+                text: "How often do you have difficulty keeping your attention when you are doing boring or repetitive work?",
+                type: "INN",
+            },
+            {
+                number: 9,
+                text: "How often do you have difficulty concentrating on what people say to you, even when they are speaking to you directly?",
+                type: "INN",
+            },
+            {
+                number: 10,
+                text: "How often do you misplace or have difficulty finding things at home or at work?",
+                type: "INN",
+            },
+            {
+                number: 11,
+                text: "How often are you distracted by activity or noise around you?",
+                type: "INN",
+            },
+            {
+                number: 12,
+                text: "How often do you leave your seat in meetings or other situations in which you are expected to remain seated?",
+                type: "HYP",
+            },
+            {
+                number: 13,
+                text: "How often do you feel restless or fidgety?",
+                type: "HYP",
+            },
+            {
+                number: 14,
+                text: "How often do you have difficulty unwinding and relaxing when you have time to yourself?",
+                type: "HYP",
+            },
+            {
+                number: 15,
+                text: "How often do you find yourself talking too much when you are in social situations?",
+                type: "HYP",
+            },
+            {
+                number: 16,
+                text: "When you are in a conversation, how often do you find yourself finishing the sentences of the people you are talking to, before they can finish them themselves?",
+                type: "HYP",
+            },
+            {
+                number: 17,
+                text: "How often do you have difficulty waiting your turn in situations when turn taking is required?",
+                type: "HYP",
+            },
+            {
+                number: 18,
+                text: "How often do you interrupt others when they are busy?",
+                type: "HYP",
+            }
+        ];
+
+        const options = [
+            { text: "Never", value: 0 },
+            { text: "Rarely", value: 1 },
+            { text: "Sometimes", value: 2 },
+            { text: "Often", value: 3 },
+            { text: "Always", value: 4 },
+        ];
+
+        let currentQuestion = 0;
+        let answers = [];
+        let innScore = 0;
+        let hypScore = 0;
+
+        const questionNumberEl = document.getElementById('question-number');
+        const questionTextEl = document.getElementById('question-text');
+        const optionsEl = document.getElementById('options');
+        const nextButton = document.getElementById('next-button');
+
+        function loadQuestion(index) {
+            const q = questions[index];
+            questionNumberEl.textContent = `Question ${q.number} of ${questions.length}`;
+            questionTextEl.textContent = q.text;
+
+            // Set background color based on question type
+            const quizEl = document.getElementById('quiz');
+            if (q.type === 'INN') {
+                quizEl.classList.add('inattentive');
+                quizEl.classList.remove('hyperactive');
+            } else if (q.type === 'HYP') {
+                quizEl.classList.add('hyperactive');
+                quizEl.classList.remove('inattentive');
+            }
+
+            optionsEl.innerHTML = '';
+            options.forEach(opt => {
+                const label = document.createElement('label');
+                label.classList.add('option');
+
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'option';
+                radio.value = opt.value;
+
+                radio.addEventListener('change', () => {
+                    nextButton.disabled = false;
+                });
+
+                label.appendChild(radio);
+                label.appendChild(document.createTextNode(` ${opt.text}`));
+
+                optionsEl.appendChild(label);
+            });
+
+            nextButton.disabled = true;
+        }
+
+        nextButton.addEventListener('click', () => {
+            const selectedOption = document.querySelector('input[name="option"]:checked');
+            if (selectedOption) {
+                const answerValue = parseInt(selectedOption.value);
+                answers.push({
+                    question: questions[currentQuestion],
+                    value: answerValue
+                });
+
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    loadQuestion(currentQuestion);
+                } else {
+                    calculateResults();
+                }
+            }
+        });
+
+        function calculateResults() {
+            answers.forEach(ans => {
+                if (ans.question.type === 'INN') {
+                    innScore += ans.value;
+                } else if (ans.question.type === 'HYP') {
+                    hypScore += ans.value;
+                }
+            });
+
+            const totalScore = innScore + hypScore;
+
+            document.getElementById('inn-score').textContent = innScore;
+            document.getElementById('hyp-score').textContent = hypScore;
+            document.getElementById('total-score').textContent = totalScore;
+
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('result').style.display = 'block';
+        }
+
+        // Start the quiz
+        loadQuestion(currentQuestion);
+    </script>
+</body>
+</html>
+

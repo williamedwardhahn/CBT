@@ -104,7 +104,7 @@
         
         <!-- Questions -->
         <div class="question active" id="question1">
-            <label for="thought">What is the thought at hand?</label>
+            <label for="thought">What kind of thought are you having?</label>
             <div class="button-container">
                 <button onclick="selectAnswer('thought', 'Positive')">Positive</button>
                 <button onclick="selectAnswer('thought', 'Neutral')">Neutral</button>
@@ -113,7 +113,7 @@
         </div>
 
         <div class="question" id="question2">
-            <label for="behaviors">What are the possible behaviors that will result from this thought?</label>
+            <label for="behaviors">What actions might result from this thought?</label>
             <div class="button-container">
                 <button onclick="selectAnswer('behaviors', 'Helpful')">Helpful</button>
                 <button onclick="selectAnswer('behaviors', 'Harmful')">Harmful</button>
@@ -122,7 +122,7 @@
         </div>
 
         <div class="question" id="question3">
-            <label for="motivations">What are the unconscious motivations behind this thought?</label>
+            <label for="motivations">What could be influencing this thought?</label>
             <div class="button-container">
                 <button onclick="selectAnswer('motivations', 'Fear')">Fear</button>
                 <button onclick="selectAnswer('motivations', 'Desire')">Desire</button>
@@ -132,34 +132,34 @@
         </div>
 
         <div class="question" id="question4">
-            <label for="longTerm">Is this in line with your long-term action plan?</label>
+            <label for="longTerm">Does this align with your long-term goals?</label>
             <div class="button-container">
                 <button onclick="selectAnswer('longTerm', 'Yes')">Yes</button>
                 <button onclick="selectAnswer('longTerm', 'No')">No</button>
-                <button onclick="selectAnswer('longTerm', 'Uncertain')">Uncertain</button>
+                <button onclick="selectAnswer('longTerm', 'Not sure')">Not sure</button>
             </div>
         </div>
 
         <div class="question" id="question5">
-            <label for="pride">Will you be proud of this behavior today, tomorrow, and one year from now?</label>
+            <label for="pride">Will you feel good about this action today, tomorrow, and in a year?</label>
             <div class="button-container">
                 <button onclick="selectAnswer('pride', 'Yes')">Yes</button>
                 <button onclick="selectAnswer('pride', 'No')">No</button>
-                <button onclick="selectAnswer('pride', 'Uncertain')">Uncertain</button>
+                <button onclick="selectAnswer('pride', 'Not sure')">Not sure</button>
             </div>
         </div>
 
         <div class="question" id="question6">
-            <label for="committee">Does the majority of your "committee" (self, friends, family, ancestors, heroes) agree with this behavior?</label>
+            <label for="committee">Do the people who matter to you (self, friends, family, heroes) support this action?</label>
             <div class="button-container">
                 <button onclick="selectAnswer('committee', 'Yes')">Yes</button>
                 <button onclick="selectAnswer('committee', 'No')">No</button>
-                <button onclick="selectAnswer('committee', 'Uncertain')">Uncertain</button>
+                <button onclick="selectAnswer('committee', 'Not sure')">Not sure</button>
             </div>
         </div>
 
         <div class="question" id="question7">
-            <label for="time">Have you given yourself enough time to process this thought?</label>
+            <label for="time">Have you taken enough time to think about this?</label>
             <div class="button-container">
                 <button onclick="selectAnswer('time', 'Yes')">Yes</button>
                 <button onclick="selectAnswer('time', 'No')">No</button>
@@ -169,14 +169,14 @@
 
         <!-- Report card -->
         <div class="report-card" id="reportCard">
-            <h2>Report Card</h2>
+            <h2>Behavior Evaluation Report</h2>
             <p><strong>Thought:</strong> <span id="thoughtReport"></span></p>
-            <p><strong>Possible Behaviors:</strong> <span id="behaviorsReport"></span></p>
-            <p><strong>Unconscious Motivations:</strong> <span id="motivationsReport"></span></p>
+            <p><strong>Possible Actions:</strong> <span id="behaviorsReport"></span></p>
+            <p><strong>Influences:</strong> <span id="motivationsReport"></span></p>
             <p><strong>Alignment with Long-Term Goals:</strong> <span id="longTermReport"></span></p>
-            <p><strong>Pride over Time:</strong> <span id="prideReport"></span></p>
-            <p><strong>Committee Agreement:</strong> <span id="committeeReport"></span></p>
-            <p><strong>Reflection Time:</strong> <span id="timeReport"></span></p>
+            <p><strong>Future Pride:</strong> <span id="prideReport"></span></p>
+            <p><strong>Support from Important People:</strong> <span id="committeeReport"></span></p>
+            <p><strong>Time to Reflect:</strong> <span id="timeReport"></span></p>
         </div>
     </div>
 
@@ -216,4 +216,3 @@
 
 </body>
 </html>
-

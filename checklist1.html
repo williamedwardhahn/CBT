@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Behavior Evaluation App</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #f8f9fa, #e0e7ff);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            display: none;
+            margin-bottom: 15px;
+        }
+
+        .question.active {
+            display: block;
+        }
+
+        .question label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .report-card {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fffbeb;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+
+        .report-card h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff9800;
+        }
+
+        .report-card p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Behavior Evaluation</h1>
+        
+        <!-- Questions -->
+        <div class="question active" id="question1">
+            <label for="thought">What is the thought at hand?</label>
+            <div class="button-container">
+                <button onclick="selectAnswer('thought', 'Positive')">Positive</button>
+                <button onclick="selectAnswer('thought', 'Neutral')">Neutral</button>
+                <button onclick="selectAnswer('thought', 'Negative')">Negative</button>
+            </div>
+        </div>
+
+        <div class="question" id="question2">
+            <label for="behaviors">What are the possible behaviors that will result from this thought?</label>
+            <div class="button-container">
+                <button onclick="selectAnswer('behaviors', 'Helpful')">Helpful</button>
+                <button onclick="selectAnswer('behaviors', 'Harmful')">Harmful</button>
+                <button onclick="selectAnswer('behaviors', 'Neutral')">Neutral</button>
+            </div>
+        </div>
+
+        <div class="question" id="question3">
+            <label for="motivations">What are the unconscious motivations behind this thought?</label>
+            <div class="button-container">
+                <button onclick="selectAnswer('motivations', 'Fear')">Fear</button>
+                <button onclick="selectAnswer('motivations', 'Desire')">Desire</button>
+                <button onclick="selectAnswer('motivations', 'Habit')">Habit</button>
+                <button onclick="selectAnswer('motivations', 'External Influence')">External Influence</button>
+            </div>
+        </div>
+
+        <div class="question" id="question4">
+            <label for="longTerm">Is this in line with your long-term action plan?</label>
+            <div class="button-container">
+                <button onclick="selectAnswer('longTerm', 'Yes')">Yes</button>
+                <button onclick="selectAnswer('longTerm', 'No')">No</button>
+                <button onclick="selectAnswer('longTerm', 'Uncertain')">Uncertain</button>
+            </div>
+        </div>
+
+        <div class="question" id="question5">
+            <label for="pride">Will you be proud of this behavior today, tomorrow, and one year from now?</label>
+            <div class="button-container">
+                <button onclick="selectAnswer('pride', 'Yes')">Yes</button>
+                <button onclick="selectAnswer('pride', 'No')">No</button>
+                <button onclick="selectAnswer('pride', 'Uncertain')">Uncertain</button>
+            </div>
+        </div>
+
+        <div class="question" id="question6">
+            <label for="committee">Does the majority of your "committee" (self, friends, family, ancestors, heroes) agree with this behavior?</label>
+            <div class="button-container">
+                <button onclick="selectAnswer('committee', 'Yes')">Yes</button>
+                <button onclick="selectAnswer('committee', 'No')">No</button>
+                <button onclick="selectAnswer('committee', 'Uncertain')">Uncertain</button>
+            </div>
+        </div>
+
+        <div class="question" id="question7">
+            <label for="time">Have you given yourself enough time to process this thought?</label>
+            <div class="button-container">
+                <button onclick="selectAnswer('time', 'Yes')">Yes</button>
+                <button onclick="selectAnswer('time', 'No')">No</button>
+                <button onclick="selectAnswer('time', 'Not sure')">Not sure</button>
+            </div>
+        </div>
+
+        <!-- Report card -->
+        <div class="report-card" id="reportCard">
+            <h2>Report Card</h2>
+            <p><strong>Thought:</strong> <span id="thoughtReport"></span></p>
+            <p><strong>Possible Behaviors:</strong> <span id="behaviorsReport"></span></p>
+            <p><strong>Unconscious Motivations:</strong> <span id="motivationsReport"></span></p>
+            <p><strong>Alignment with Long-Term Goals:</strong> <span id="longTermReport"></span></p>
+            <p><strong>Pride over Time:</strong> <span id="prideReport"></span></p>
+            <p><strong>Committee Agreement:</strong> <span id="committeeReport"></span></p>
+            <p><strong>Reflection Time:</strong> <span id="timeReport"></span></p>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 1;
+        const answers = {};
+
+        function selectAnswer(question, answer) {
+            // Save the answer
+            answers[question] = answer;
+            
+            // Move to the next question
+            document.getElementById(`question${currentQuestion}`).classList.remove('active');
+            currentQuestion++;
+
+            if (currentQuestion <= 7) {
+                document.getElementById(`question${currentQuestion}`).classList.add('active');
+            } else {
+                generateReport();
+            }
+        }
+
+        function generateReport() {
+            // Set answers in the report card
+            document.getElementById('thoughtReport').textContent = answers.thought;
+            document.getElementById('behaviorsReport').textContent = answers.behaviors;
+            document.getElementById('motivationsReport').textContent = answers.motivations;
+            document.getElementById('longTermReport').textContent = answers.longTerm;
+            document.getElementById('prideReport').textContent = answers.pride;
+            document.getElementById('committeeReport').textContent = answers.committee;
+            document.getElementById('timeReport').textContent = answers.time;
+
+            // Show the report card
+            document.getElementById('reportCard').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
+
